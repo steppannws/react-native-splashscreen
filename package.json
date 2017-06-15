@@ -27,6 +27,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/remobile/react-native-splashscreen.git"
+        "url": "git://github.com/steppannws/react-native-splashscreen.git"
     }
 }

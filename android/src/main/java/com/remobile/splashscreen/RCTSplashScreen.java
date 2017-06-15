@@ -16,6 +16,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import java.io.IOException;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -65,36 +66,47 @@ public class RCTSplashScreen extends ReactContextBaseJavaModule {
 
 
     private void removeSplashScreen() {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                if (splashDialog != null && splashDialog.isShowing()) {
-                    AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
-                    fadeOut.setDuration(1000);
-                    View view = ((ViewGroup)splashDialog.getWindow().getDecorView()).getChildAt(0);
-                    view.startAnimation(fadeOut);
-                    fadeOut.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            splashDialog.dismiss();
-                            splashDialog = null;
-                            splashImageView = null;
-                        }
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-                    });
+        try {
+            getActivity().runOnUiThread(new Runnable() {
+                public void run() {
+                    if (splashDialog != null && splashDialog.isShowing()) {
+                        AlphaAnimation fadeOut = new AlphaAnimation(1, 0);
+                        fadeOut.setDuration(1000);
+                        View view = ((ViewGroup)splashDialog.getWindow().getDecorView()).getChildAt(0);
+                        view.startAnimation(fadeOut);
+                        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                            }
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                splashDialog.dismiss();
+                                splashDialog = null;
+                                splashImageView = null;
+                            }
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception ex) {}
     }
 
     private int getSplashId() {
-        int drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getClass().getPackage().getName());
-        if (drawableId == 0) {
-            drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getPackageName());
+        // int drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getClass().getPackage().getName());
+        // if (drawableId == 0) {
+        //     drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getPackageName());
+        // }
+        int drawableId = 0;
+        try {
+            drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getClass().getPackage().getName());
+            if (drawableId == 0) {
+                drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getPackageName());
+            }
+        } catch (Exception ex) {
+            drawableId = 0;
         }
         return drawableId;
     }
@@ -131,7 +143,9 @@ public class RCTSplashScreen extends ReactContextBaseJavaModule {
                 splashDialog.setContentView(splashImageView);
                 splashDialog.setCancelable(false);
                 if (activity != null && !activity.isFinishing()) {
-                    splashDialog.show();
+                    try {
+                        splashDialog.show();
+                    } catch (Exception ex) {}
                 }
             }
         });
