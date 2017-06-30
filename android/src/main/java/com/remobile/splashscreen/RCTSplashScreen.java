@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.io.IOException;
+import java.lang.NullPointerException;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -95,19 +96,16 @@ public class RCTSplashScreen extends ReactContextBaseJavaModule {
     }
 
     private int getSplashId() {
-        // int drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getClass().getPackage().getName());
-        // if (drawableId == 0) {
-        //     drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getPackageName());
-        // }
         int drawableId = 0;
         try {
             drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getClass().getPackage().getName());
-            if (drawableId == 0) {
+            if (drawableId == 0 && getActivity() != null) {
                 drawableId = getActivity().getResources().getIdentifier("splash", "drawable", getActivity().getPackageName());
             }
         } catch (Exception ex) {
             drawableId = 0;
         }
+
         return drawableId;
     }
 

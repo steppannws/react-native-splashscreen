@@ -1,6 +1,6 @@
 {
-    "name": "@remobile/react-native-splashscreen",
-    "version": "1.0.7",
+    "name": "react-native-splashscreen",
+    "version": "1.0.8",
     "description": "A splashscreen for react-native, hide when application loaded",
     "main": "index.js",
     "author": {
@@ -28,5 +28,9 @@
     "repository": {
         "type": "git",
         "url": "git://github.com/steppannws/react-native-splashscreen.git"
+    },
+    "dependencies": {
+        "global": "^4.3.2",
+        "react-native-cli": "^2.0.1"
     }
 }
